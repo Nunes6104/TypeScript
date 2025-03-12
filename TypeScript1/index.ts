@@ -18,7 +18,7 @@ const menu = [
 
 let cashInRegister = 100
 let IdOrder = 1
-const orderQueue = []
+const orderQueue: Order[] = []
 
 function addNewPizza(pizzaObj: Pizza) {
     menu.push(pizzaObj);
@@ -27,7 +27,7 @@ function addNewPizza(pizzaObj: Pizza) {
 function placeOrder(name: string) {
     const selectedPizza = menu.find(pizzaObj => pizzaObj.name === name)
     if(!selectedPizza){
-        console.log('This' + name + ' does not existe')
+        console.error('This' + name + ' does not existe')
         return
     }
     cashInRegister += selectedPizza.price
@@ -41,7 +41,7 @@ function placeOrder(name: string) {
 function completeOrder(orderId: number){
     const selecetedOrder = orderQueue.find(orderObj => orderObj.idOrder === orderId)
     if(!selecetedOrder){
-        console.log('Id order does not exist')
+        console.error('Id order does not exist')
         return
     }
 
@@ -61,7 +61,7 @@ console.log("menu: ", menu)
 console.log("Cash: ", cashInRegister)
 console.log("orderQueue: ", orderQueue)
 
-type Address = {
+/*type Address = {
     street: string,
     city: string,
     county: string
@@ -84,8 +84,8 @@ let person1: Person = {
     }
 }
 
-/*let people = [person1];*/
+let people = [person1];
 let people: Array<Person> = [person1];
 
 let ages: number[] = [100, 101]
-let age = [100, 101]
+let age = [100, 101]*/
