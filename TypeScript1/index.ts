@@ -21,11 +21,11 @@ let cashInRegister = 100
 let nextId = 1
 const orderQueue: Order[] = []
 
-function addNewPizza(pizzaObj: Pizza) {
+function addNewPizza(pizzaObj: Pizza): void {
     menu.push(pizzaObj);
 }
 
-function placeOrder(name: string) {
+function placeOrder(name: string): Order | undefined {
     const selectedPizza = menu.find(pizzaObj => pizzaObj.name === name)
     if(!selectedPizza){
         console.error('This' + name + ' does not existe')
@@ -39,7 +39,7 @@ function placeOrder(name: string) {
     return newOrder;
 }
 
-function completeOrder(orderId: number){
+function completeOrder(orderId: number): Order | undefined{
     const selecetedOrder = orderQueue.find(orderObj => orderObj.idOrder === orderId)
     if(!selecetedOrder){
         console.error('Id order does not exist')
@@ -50,15 +50,14 @@ function completeOrder(orderId: number){
     return selecetedOrder;
 }
 
-export function getPizzaDetail(identifier: string | number){
+function getPizzaDetail(identifier: string | number): Pizza | undefined {
     if(typeof identifier === "string"){
         return menu.find(ident => ident.name.toLowerCase() === identifier.toLowerCase())
     }
     if (typeof identifier === "number") {
         return menu.find(ident => ident.idPizza === identifier)
     } else {
-        console.error('Id or pizza name does not exist')
-        return
+        throw new TypeError('Id or pizza name does not exist')
     }
 }
 
@@ -73,3 +72,6 @@ completeOrder(1)
 console.log("menu: ", menu)
 console.log("Cash: ", cashInRegister)
 console.log("orderQueue: ", orderQueue)
+
+
+
