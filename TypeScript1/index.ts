@@ -1,23 +1,24 @@
 type Pizza = {
+    idPizza: number,
     name: string,
     price: number
 }
 type Order = {
     pizza: Pizza
-    status: string
-    id: number
+    status: "Ordered" | "Completed"
+    idOrder: number
 
 }
 
-const menu = [
-    {name: "Margherita", price: 8},
-    {name: "Pepperoni", price: 10},
-    {name: "Hawaiian", price: 10},
-    {name: "veggie", price: 9},
+const menu: Pizza[] = [
+    {idPizza: 1, name: "Margherita", price: 8},
+    {idPizza: 2, name: "Pepperoni", price: 10},
+    {idPizza: 3, name: "Hawaiian", price: 10},
+    {idPizza: 4, name: "veggie", price: 9},
 ]
 
 let cashInRegister = 100
-let IdOrder = 1
+let nextId = 1
 const orderQueue: Order[] = []
 
 function addNewPizza(pizzaObj: Pizza) {
@@ -32,9 +33,9 @@ function placeOrder(name: string) {
     }
     cashInRegister += selectedPizza.price
 
-    const newOrder = {pizza: selectedPizza, status: "Ordered", idOrder: IdOrder}
+    const newOrder: Order = {pizza: selectedPizza, status: "Ordered", idOrder: nextId}
     orderQueue.push(newOrder)
-    IdOrder++
+    nextId++
     return newOrder;
 }
 
@@ -49,10 +50,22 @@ function completeOrder(orderId: number){
     return selecetedOrder;
 }
 
+export function getPizzaDetail(identifier: string | number){
+    if(typeof identifier === "string"){
+        return menu.find(ident => ident.name.toLowerCase() === identifier.toLowerCase())
+    }
+    if (typeof identifier === "number") {
+        return menu.find(ident => ident.idPizza === identifier)
+    } else {
+        console.error('Id or pizza name does not exist')
+        return
+    }
+}
 
-addNewPizza({name: "BBQ", price: 11})
-addNewPizza({name: "Chicken", price: 13})
-addNewPizza({name: "Spice", price: 6})
+
+addNewPizza({idPizza: 5, name: "BBQ", price: 11})
+addNewPizza({idPizza: 6, name: "Chicken", price: 13})
+addNewPizza({idPizza: 7, name: "Spice", price: 6})
 
 placeOrder("BBQ")
 completeOrder(1)
@@ -60,32 +73,3 @@ completeOrder(1)
 console.log("menu: ", menu)
 console.log("Cash: ", cashInRegister)
 console.log("orderQueue: ", orderQueue)
-
-/*type Address = {
-    street: string,
-    city: string,
-    county: string
-}
-
-type Person = {
-    name: string,
-    age: number,
-    isStudent: boolean,
-    address?: Address
-}
-let person1: Person = {
-    name: "Joe",
-    age: 18,
-    isStudent: true,
-    address: {
-        street: "1234",
-        city: "abc",
-        county: "Portugal"
-    }
-}
-
-let people = [person1];
-let people: Array<Person> = [person1];
-
-let ages: number[] = [100, 101]
-let age = [100, 101]*/
